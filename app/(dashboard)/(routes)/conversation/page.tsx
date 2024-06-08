@@ -37,6 +37,24 @@ const formSchema = z.object({
   }),
 });
 
+// Define type for message content part
+type ChatCompletionContentPart = {
+  // Define the structure if known, otherwise, use `any`
+  // e.g., type: string; content: string;
+  [key: string]: any;
+};
+
+
+// Utility function to convert content to string
+const convertContentToString = (content: string | ChatCompletionContentPart[] | null | undefined): string => {
+  if (typeof content === 'string') {
+    return content;
+  } else if (Array.isArray(content)) {
+    return content.map(part => typeof part === 'string' ? part : JSON.stringify(part)).join(' ');
+  }
+  return '';
+};
+
 const ConversationPage = ({}) => {
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
@@ -155,14 +173,14 @@ const ConversationPage = ({}) => {
           <div className="flex flex-col-reverse gap-y-4">
             {messages.map((message, index) => (
               <div 
-              key={message.content}
+              key={index}
               className={cn("p-8 w-full flex items-start gap-x-8 rounded-lg",message.role === 'user' ? "bg-white border border-black/10" : "bg-muted")}
               >
 
                   {message.role  === "user" ? <UserAvatar></UserAvatar> : <BotAvatar></BotAvatar>}
 
                 <p className="text-sm">
-                  {message.content}
+                {convertContentToString(message.content)}
                 </p>
                 </div>
             ))}
