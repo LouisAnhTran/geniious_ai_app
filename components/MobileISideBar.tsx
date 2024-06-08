@@ -11,6 +11,7 @@ import Sidebar from "./Sidebar";
 
 const MobileISideBar = () => {
   const [isMounted,setIsMounted]=useState(false);
+  const count=0;
 
   useEffect(()=>{
     setIsMounted(true);
@@ -27,7 +28,7 @@ const MobileISideBar = () => {
       </SheetTrigger>
 
       <SheetContent side="left" className="p-0 bg-[#111827]">
-       <Sidebar></Sidebar>
+      <Sidebar apiLimitCount={count}></Sidebar>
       </SheetContent>
     </Sheet>
   );
