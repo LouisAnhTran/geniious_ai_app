@@ -1,3 +1,4 @@
+import { checkExceedApiLimit, checkIfUserOnboard, increaseApiLimit } from "@/lib/api-limits";
 import { auth } from "@clerk/nextjs/server";
 import { NextResponse,NextRequest } from "next/server";
 import OpenAI from "openai";
@@ -12,6 +13,22 @@ export async function POST ( req: NextRequest ) {
 
     if (!userId) {
       return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    console.log("test check if: ",await checkIfUserOnboard())
+    
+    if(!(await checkIfUserOnboard())){
+      console.log("test lala lala")
+      increaseApiLimit();
+    }
+    else{
+      if(await checkExceedApiLimit()){
+        return new NextResponse("Free trial has expired",{
+          status: 403
+        });
+      }
+      console.log("not exceed yet")
+      increaseApiLimit();
     }
 
     if (!messages) {

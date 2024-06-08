@@ -92,11 +92,12 @@ const ConversationPage = ({}) => {
       setMessages((current) => [...current, userMessage, response.data]);
 
       form.reset();
+      router.refresh();
     } catch (error: any) {
       // Todo: open pro modal
       console.log(error);
     } finally {
-      router.refresh();
+      // router.refresh();
     }
   }
 
