@@ -34,7 +34,7 @@ const LandingPage = () => {
           <p className="text-slate-200 text-7xl font-bold">
             The Best AI Tool for
           </p>
-          <div className="text-white text-6xl mt-4 text-transparent bg-clip-text bg-gradient-to-r font-semibold from-purple-500 to-pink-700">
+          <div className="text-white text-6xl mt-4 text-transparent font-bold bg-clip-text bg-gradient-to-r from-purple-500 to-pink-700">
             Fast Content Generation
           </div>
           <p className="text-slate-500 mt-6 text-xl italic">
