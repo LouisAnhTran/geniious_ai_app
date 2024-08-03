@@ -30,6 +30,7 @@ import Loader from "@/components/Loader";
 import { cn } from "@/lib/utils";
 import UserAvatar from "@/components/UserAvatar";
 import BotAvatar from "@/components/BotAvatar";
+import { useProModal } from "@/hooks/use-pro-madal";
 
 const formSchema = z.object({
   prompt: z.string().min(1, {
@@ -56,6 +57,7 @@ const convertContentToString = (content: string | ChatCompletionContentPart[] | 
 };
 
 const ConversationPage = ({}) => {
+  const proModal=useProModal();
   const router = useRouter();
   const [messages, setMessages] = useState<ChatCompletionMessageParam[]>([]);
 
@@ -92,12 +94,14 @@ const ConversationPage = ({}) => {
       setMessages((current) => [...current, userMessage, response.data]);
 
       form.reset();
-      router.refresh();
     } catch (error: any) {
       // Todo: open pro modal
-      console.log(error);
+      console.log("nana-error: ",error);
+      if(error?.response?.status === 403){
+        proModal.onOpen();
+      }
     } finally {
-      // router.refresh();
+      router.refresh();
     }
   }
 
